@@ -1,2 +1,0 @@
-# tutoGraphRickMorty
-Created with CodeSandbox
