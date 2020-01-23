@@ -13,12 +13,21 @@ const client = new ApolloClient({
 function App() {
   return (
     <div className="App">
-      <CharactersQuery />
+      <CharactersQuery>
+        {({ loading, error, data }) => {
+          if (loading) return <p>Loading...</p>;
+          if (error) return <p>Eror!</p>;
+
+          return data.characters.results.map(character => {
+            return <p key={character.id}>{character.name}</p>;
+          });
+        }}
+      </CharactersQuery>
     </div>
   );
 }
 
-const CharactersQuery = () => {
+const CharactersQuery = props => {
   return (
     <Query
       query={gql`
@@ -33,14 +42,7 @@ const CharactersQuery = () => {
         }
       `}
     >
-      {({ loading, error, data }) => {
-        if (loading) return <p>Loading...</p>;
-        if (error) return <p>Eror!</p>;
-
-        return data.characters.results.map(character => {
-          return <p key={character.id}>{character.name}</p>;
-        });
-      }}
+      {props.children}
     </Query>
   );
 };
